@@ -7,8 +7,10 @@ import PageHeader from './pageHeader';
 
 const Characters = (props) => {
 
+    
+
     useEffect(()=>{
-         fetchAllCharacters();
+        fetchAllCharacters()
         
     },[])
 
@@ -32,9 +34,16 @@ const Characters = (props) => {
                     </Link>
                 ))}
             </div>
+
+               
         </div>
      );
 }
  
 const mapStateToProps = state =>({characters:state.characters.characters})
+
+
+
 export default connect(mapStateToProps,fetchAllCharacters)(Characters);
+
+

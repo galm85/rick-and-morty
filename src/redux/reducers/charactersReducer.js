@@ -12,8 +12,16 @@ export default function(state = initialState,action){
                 characters:action.payload
             }
 
+            case 'nextPage':{
+                return {
+                    ...state,
+                    characters:action.payload
+                }
+            }
         
         default:
             return state;
     }
 }
+
+

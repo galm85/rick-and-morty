@@ -10,6 +10,7 @@ import Home from './components/home';
 import Characters from './components/characters';
 import SingleCharacter from './components/singleCharacter';
 import Locations from './components/locations';
+import Episodes from './components/episodes';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
                 <Route exact path="/characters" component={Characters}/>
                 <Route exact path="/locations" component={Locations}/>
                 <Route path="/characters/:id" component={SingleCharacter}/>
+                <Route path="/episodes" component={Episodes}/>
               </Switch>
             </main>
             
