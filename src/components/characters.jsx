@@ -28,7 +28,7 @@ const Characters = (props) => {
                 {props.characters.map(char=>(
                     <Link to={`characters/${char.id}`}>
                         <div key={char.id} className='char-info'>
-                            <img width="200px" src={char.image} alt={char.name}/>
+                            <img  src={char.image} alt={char.name}/>
                             <h6>{char.name}</h6>
                         </div>
                     </Link>
