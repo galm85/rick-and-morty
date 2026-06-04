@@ -1,22 +1,24 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Topbar = ({handleShow}) => {
+const Topbar = ({ handleShow }) => {
+  return (
+    <nav className="topbar">
+      <Link to="/" className="topbar-logo">
+        Rick<span>&</span>Morty
+      </Link>
+      <div className="topbar-nav">
+        <Link to="/characters">Characters</Link>
+        <Link to="/locations">Locations</Link>
+        <Link to="/episodes">Episodes</Link>
+      </div>
+      <button className="hamburger" onClick={handleShow} aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  );
+};
 
-    return ( 
-        <React.Fragment>
-            <div className="main-top-bar">
-                <Link to="/">
-                    <img src="/images/rickAndMortyLogo.png" alt="rick and morty logo" className="main-logo"/>
-                </Link>
-        
-            <div className="hamburger" onClick={handleShow}>    
-                 <i class="fas fa-bars"></i>
-            </div>
-
-        </div>
-        </React.Fragment>
-     );
-}
- 
 export default Topbar;

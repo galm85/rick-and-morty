@@ -1,37 +1,51 @@
-import React,{useEffect} from 'react';
-import {connect} from 'react-redux';
-import {fetchAllEpisodes} from '../redux/actions/episodesActions';
-import moment from 'moment';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllEpisodes } from '../redux/actions/episodesActions';
 import PageHeader from './pageHeader';
-const Episodes = (props) => {
 
-    useEffect(()=>{
-        fetchAllEpisodes();
-    })
+const Episodes = () => {
+  const dispatch = useDispatch();
+  const episodes = useSelector(state => state.episodes.episodes);
 
-
-    if(props.episodes.length===0){
-        return <div>Loading....</div>
+  useEffect(() => {
+    if (episodes.length === 0) {
+      dispatch(fetchAllEpisodes());
     }
-    return ( 
-       
-        <div>
-            <PageHeader title='Locations'/>
-            <div className="locations-container">
-                {props.episodes.map(episode=>(
-                        <div key={episode.id} className='locations-info'>
-                            <h6>{episode.name}</h6>
-                            <p>episode: {episode.episode}</p>
-                            <p>Aired: {episode.air_date}</p>
-                        </div>
-                    
-                ))}
+  }, []);
+
+  if (episodes.length === 0) {
+    return (
+      <div className="loading">
+        <div className="spinner"></div>
+        Loading episodes...
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHeader title="Episodes" />
+      <div className="grid-container">
+        {episodes.map(episode => (
+          <div key={episode.id} className="grid-card">
+            <div className="grid-card-title">{episode.name}</div>
+            <div className="grid-card-row">
+              <span className="grid-card-label">Episode</span>
+              <span className="grid-card-badge episode-badge">{episode.episode}</span>
             </div>
-        </div>
-     );
-}
- 
-const mapStateToProps = state =>({
-    episodes:state.episodes.episodes
-})
-export default connect(mapStateToProps,fetchAllEpisodes)(Episodes);
+            <div className="grid-card-row">
+              <span className="grid-card-label">Air Date</span>
+              <span className="grid-card-value">{episode.air_date}</span>
+            </div>
+            <div className="grid-card-row">
+              <span className="grid-card-label">Characters</span>
+              <span className="grid-card-badge episode-badge">{episode.characters.length}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Episodes;

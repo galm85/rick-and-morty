@@ -1,41 +1,61 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {fetchAllCharacters} from '../redux/actions/charactersActions';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllCharacters } from '../redux/actions/charactersActions';
 
+const SingleCharacter = ({ match, history }) => {
+  const dispatch = useDispatch();
+  const characters = useSelector(state => state.characters.characters);
+  const id = parseInt(match.params.id);
+  const char = characters.find(c => c.id === id);
 
-const SingleCharacter = (props) => {
-
-    const id = props.match.params.id
-    const char = props.characters[id-1];
-    
-    if(props.characters.length===0){
-        fetchAllCharacters()
-        const id = props.match.params.id
-        const char = props.characters[id-1];
-        return <div>Loading...</div>
+  useEffect(() => {
+    if (characters.length === 0) {
+      dispatch(fetchAllCharacters());
     }
+  }, []);
 
-    return ( 
-        <div className="char-page">
-            <div className="char-image">
-                <img  src={char.image} alt=""/>
-            </div>
-            
-            <div className="single-char-info">
-                <h2>{char.name}</h2>
-                <p>Species: {char.species}</p>
-                <p>Gender: {char.gender}</p>
-                <p>Origin: {char.origin.name}</p>
-                <p>Location: {char.location.name}</p>
+  if (!char) {
+    return (
+      <div className="loading">
+        <div className="spinner"></div>
+        Loading...
+      </div>
+    );
+  }
 
-                <button onClick={props.history.goBack}>Back</button>
-
-
-            </div>
-
+  return (
+    <div className="single-char-container">
+      <button className="back-btn" onClick={history.goBack}>
+        ← Back
+      </button>
+      <div className="single-char-card">
+        <img src={char.image} alt={char.name} className="single-char-image" />
+        <div className="single-char-info">
+          <h1 className="single-char-name">{char.name}</h1>
+          <div className={`status-badge single-char-status status-${char.status.toLowerCase()}`}>
+            <span className="status-dot"></span>
+            {char.status} — {char.species}
+          </div>
+          <div className="info-item">
+            <div className="info-label">Gender</div>
+            <div className="info-value">{char.gender}</div>
+          </div>
+          <div className="info-item">
+            <div className="info-label">Origin</div>
+            <div className="info-value">{char.origin.name}</div>
+          </div>
+          <div className="info-item">
+            <div className="info-label">Last Known Location</div>
+            <div className="info-value">{char.location.name}</div>
+          </div>
+          <div className="info-item">
+            <div className="info-label">Episodes</div>
+            <div className="info-value">{char.episode.length} episodes</div>
+          </div>
         </div>
-        
-     );
-}
- const mapStateToProps = state =>({characters:state.characters.characters})
-export default connect(mapStateToProps,fetchAllCharacters)(SingleCharacter);
+      </div>
+    </div>
+  );
+};
+
+export default SingleCharacter;

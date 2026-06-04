@@ -1,38 +1,51 @@
-import React,{useEffect} from 'react';
-import {connect} from 'react-redux';
-import {fetchAllLocations} from '../redux/actions/locationsActions';
-import moment from 'moment';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllLocations } from '../redux/actions/locationsActions';
 import PageHeader from './pageHeader';
-const Locations = (props) => {
 
-    useEffect(()=>{
-        fetchAllLocations();
-    })
+const Locations = () => {
+  const dispatch = useDispatch();
+  const locations = useSelector(state => state.locations.locations);
 
-
-    if(props.locations.length===0){
-        return <div>Loading....</div>
+  useEffect(() => {
+    if (locations.length === 0) {
+      dispatch(fetchAllLocations());
     }
-    return ( 
-       
-        <div>
-            <PageHeader title='Locations'/>
-            <div className="locations-container">
-                {props.locations.map(location=>(
-                        <div key={location.id} className='locations-info'>
-                            <h6>{location.name}</h6>
-                            <p>Type: {location.type}</p>
-                            <p>Dimension: {location.dimension}</p>
-                            <p>Created: {moment(location.created).calendar()}</p>
-                        </div>
-                    
-                ))}
+  }, []);
+
+  if (locations.length === 0) {
+    return (
+      <div className="loading">
+        <div className="spinner"></div>
+        Loading locations...
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <PageHeader title="Locations" />
+      <div className="grid-container">
+        {locations.map(location => (
+          <div key={location.id} className="grid-card">
+            <div className="grid-card-title">{location.name}</div>
+            <div className="grid-card-row">
+              <span className="grid-card-label">Type</span>
+              <span className="grid-card-value">{location.type}</span>
             </div>
-        </div>
-     );
-}
- 
-const mapStateToProps = state =>({
-    locations:state.locations.locations
-})
-export default connect(mapStateToProps,fetchAllLocations)(Locations);
+            <div className="grid-card-row">
+              <span className="grid-card-label">Dimension</span>
+              <span className="grid-card-value">{location.dimension}</span>
+            </div>
+            <div className="grid-card-row">
+              <span className="grid-card-label">Residents</span>
+              <span className="grid-card-badge">{location.residents.length}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Locations;
