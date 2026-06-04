@@ -4,7 +4,7 @@ const initialState = {
 }
 
 
-export default function(state = initialState,action){
+export default function episodesReducer(state = initialState,action){
     switch (action.type){
         case 'fetchEpisodes':
             return{

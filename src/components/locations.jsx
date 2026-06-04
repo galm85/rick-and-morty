@@ -8,10 +8,8 @@ const Locations = () => {
   const locations = useSelector(state => state.locations.locations);
 
   useEffect(() => {
-    if (locations.length === 0) {
-      dispatch(fetchAllLocations());
-    }
-  }, []);
+    dispatch(fetchAllLocations());
+  }, [dispatch]);
 
   if (locations.length === 0) {
     return (

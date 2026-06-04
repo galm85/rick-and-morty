@@ -8,10 +8,8 @@ const Episodes = () => {
   const episodes = useSelector(state => state.episodes.episodes);
 
   useEffect(() => {
-    if (episodes.length === 0) {
-      dispatch(fetchAllEpisodes());
-    }
-  }, []);
+    dispatch(fetchAllEpisodes());
+  }, [dispatch]);
 
   if (episodes.length === 0) {
     return (

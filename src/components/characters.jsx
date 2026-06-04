@@ -9,10 +9,8 @@ const Characters = () => {
   const characters = useSelector(state => state.characters.characters);
 
   useEffect(() => {
-    if (characters.length === 0) {
-      dispatch(fetchAllCharacters());
-    }
-  }, []);
+    dispatch(fetchAllCharacters());
+  }, [dispatch]);
 
   if (characters.length === 0) {
     return (

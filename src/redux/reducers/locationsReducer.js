@@ -4,7 +4,7 @@ const initialState = {
 }
 
 
-export default function(state = initialState,action){
+export default function locationsReducer(state = initialState,action){
     switch (action.type){
         case 'fetchLocations':
             return{

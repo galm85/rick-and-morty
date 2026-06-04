@@ -9,10 +9,8 @@ const SingleCharacter = ({ match, history }) => {
   const char = characters.find(c => c.id === id);
 
   useEffect(() => {
-    if (characters.length === 0) {
-      dispatch(fetchAllCharacters());
-    }
-  }, []);
+    dispatch(fetchAllCharacters());
+  }, [dispatch]);
 
   if (!char) {
     return (
